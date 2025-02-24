@@ -1,0 +1,75 @@
+.filters {
+    display: flex;
+    gap: 15px;
+    background: #f8f8f8;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    gap: 30px;
+}
+
+.filterGroup {
+    position: relative;
+}
+
+.filterTitle {
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 10px 15px;
+    background: #eaeaea;
+    border-radius: 5px;
+    transition: background 0.3s;
+    white-space: nowrap; /* Чтобы текст не переносился */
+}
+
+.filterTitle:hover {
+    background: #d5d5d5;
+}
+
+.filterOptions {
+    list-style: none;
+    padding: 0;
+    margin-top: 5px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    left: 0;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+
+    max-height: 200px; /* Ограничиваем высоту */
+    overflow-y: auto;  /* Включаем прокрутку */
+    scrollbar-width: none; /* Убираем скролл в Firefox */
+    -ms-overflow-style: none; /* Убираем скролл в IE и Edge */
+}
+
+.filterOptions::-webkit-scrollbar {
+    display: none; /* Убираем скролл в Chrome и Safari */
+}
+
+.filterOptions.show {
+    opacity: 1;
+    pointer-events: auto;
+    padding: 10px;
+}
+
+
+.filterOptions label {
+    display: block;
+    padding: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.filterOptions input {
+    margin-right: 8px;
+}
