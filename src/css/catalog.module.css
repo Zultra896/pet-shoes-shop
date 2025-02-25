@@ -23,7 +23,7 @@
     background: #eaeaea;
     border-radius: 5px;
     transition: background 0.3s;
-    white-space: nowrap; /* Чтобы текст не переносился */
+    white-space: nowrap;
 }
 
 .filterTitle:hover {
@@ -33,43 +33,51 @@
 .filterOptions {
     list-style: none;
     padding: 0;
-    margin-top: 5px;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    margin-top: 0;
     background: white;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     position: absolute;
     left: 0;
+    top: 100%;
     white-space: nowrap;
+    max-height: 200px;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    /* Начальное состояние скрытое */
     opacity: 0;
     pointer-events: none;
+    transform: translateY(15px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
 
-    max-height: 200px; /* Ограничиваем высоту */
-    overflow-y: auto;  /* Включаем прокрутку */
-    scrollbar-width: none; /* Убираем скролл в Firefox */
-    -ms-overflow-style: none; /* Убираем скролл в IE и Edge */
+/* При наведении на .filterGroup */
+.filterGroup:hover .filterOptions {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+    padding: 5px;
+}
+
+/* Скрытие при уходе */
+.filterGroup:not(:hover) .filterOptions {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(15px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .filterOptions::-webkit-scrollbar {
-    display: none; /* Убираем скролл в Chrome и Safari */
+    display: none;
 }
-
-.filterOptions.show {
-    opacity: 1;
-    pointer-events: auto;
-    padding: 10px;
-}
-
 
 .filterOptions label {
-    display: block;
+    display: flex;
     padding: 5px;
     font-size: 14px;
     cursor: pointer;
-}
-
-.filterOptions input {
-    margin-right: 8px;
+    gap: 3px;
+    align-items: center;
 }

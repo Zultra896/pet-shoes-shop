@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import styles from '../css/catalog.module.css'
+import styles from "../css/catalog.module.css";
 
 const Catalog = () => {
     const [shoes, setShoes] = useState([]);
@@ -17,20 +17,12 @@ const Catalog = () => {
         search: "",
     });
 
-    // Состояние для открытия/закрытия списков
     const [openFilters, setOpenFilters] = useState({
         brand: false,
         color: false,
         material: false,
         size: false,
     });
-    
-    const toggleFilter = (filter) => {
-        setOpenFilters((prev) => ({
-            ...prev,
-            [filter]: !prev[filter], // Переключаем состояние
-        }));
-    };
 
     useEffect(() => {
         const fetchFilters = async () => {
@@ -44,11 +36,9 @@ const Catalog = () => {
                 console.error("Ошибка при загрузке фильтров:", error);
             }
         };
-    
+
         fetchFilters();
     }, []);
-    
-    
 
     useEffect(() => {
         const queryParams = new URLSearchParams();
@@ -91,63 +81,37 @@ const Catalog = () => {
             <input type="text" name="search" placeholder="Поиск по названию" onChange={handleSearchChange} />
 
             <div className={styles.filters}>
-                <div className={styles.filterGroup}>
-                    <div className={styles.filterTitle} onClick={() => toggleFilter("brand")}>
-                        Бренд
+                {[
+                    { name: "brand", label: "Бренд", items: brands },
+                    { name: "color", label: "Цвет", items: colors },
+                    { name: "material", label: "Материал", items: materials },
+                    { name: "size", label: "Размер", items: sizes },
+                ].map(({ name, label, items }) => (
+                    <div
+                        key={name}
+                        className={styles.filterGroup}
+                        onMouseEnter={() => setOpenFilters((prev) => ({ ...prev, [name]: true }))}
+                        onMouseLeave={() => setOpenFilters((prev) => ({ ...prev, [name]: false }))}
+                    >
+                        <div className={styles.filterTitle}>{label}</div>
+                        <ul
+                            className={styles.filterOptions}
+                            style={{
+                                opacity: openFilters[name] ? 1 : 0,
+                                pointerEvents: openFilters[name] ? "auto" : "none",
+                                transform: openFilters[name] ? "translateY(0)" : "translateY(15px)",
+                            }}
+                        >
+                            {items.map((item) => (
+                                <label key={item}>
+                                    <input type="checkbox" name={name} value={item} onChange={handleCheckboxChange} />
+                                    {item}
+                                </label>
+                            ))}
+                        </ul>
                     </div>
-                    <ul className={`${styles.filterOptions} ${openFilters.brand ? styles.show : ""}`}>
-                        {brands.map((brand) => (
-                            <label key={brand}>
-                                <input type="checkbox" name="brand" value={brand} onChange={handleCheckboxChange} />
-                                {brand}
-                            </label>
-                        ))}
-                    </ul>
-                </div>
-
-                <div className={styles.filterGroup}>
-                    <div className={styles.filterTitle} onClick={() => toggleFilter("color")}>
-                        Цвет
-                    </div>
-                    <ul className={`${styles.filterOptions} ${openFilters.color ? styles.show : ""}`}>
-                        {colors.map((color) => (
-                            <label key={color}>
-                                <input type="checkbox" name="color" value={color} onChange={handleCheckboxChange} />
-                                {color}
-                            </label>
-                        ))}
-                    </ul>
-                </div>
-
-                <div className={styles.filterGroup}>
-                    <div className={styles.filterTitle} onClick={() => toggleFilter("material")}>
-                        Материал
-                    </div>
-                    <ul className={`${styles.filterOptions} ${openFilters.material ? styles.show : ""}`}>
-                        {materials.map((material) => (
-                            <label key={material}>
-                                <input type="checkbox" name="material" value={material} onChange={handleCheckboxChange} />
-                                {material}
-                            </label>
-                        ))}
-                    </ul>
-                </div>
-
-                <div className={styles.filterGroup}>
-                    <div className={styles.filterTitle} onClick={() => toggleFilter("size")}>
-                        Размер
-                    </div>
-                    <ul className={`${styles.filterOptions} ${openFilters.size ? styles.show : ""}`}>
-                        {sizes.map((size) => (
-                            <label key={size}>
-                                <input type="checkbox" name="size" value={size} onChange={handleCheckboxChange} />
-                                {size}
-                            </label>
-                        ))}
-                    </ul>
-                </div>
+                ))}
             </div>
-
 
             {/* Вывод карточек обуви */}
             <div>
