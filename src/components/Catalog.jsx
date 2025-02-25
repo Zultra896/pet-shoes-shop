@@ -76,11 +76,14 @@ const Catalog = () => {
     };
 
     return (
-        <div>
-            <h1>Каталог обуви</h1>
-            <input type="text" name="search" placeholder="Поиск по названию" onChange={handleSearchChange} />
+        <div className={styles.catalog}>
+            <h1 className={styles.catalog__title}>Каталог обуви</h1>
 
             <div className={styles.filters}>
+
+            <input className={styles.catalog__search} type="text" name="search" placeholder="Поиск по названию" onChange={handleSearchChange} />
+
+                <div className={styles.filterBlock}>
                 {[
                     { name: "brand", label: "Бренд", items: brands },
                     { name: "color", label: "Цвет", items: colors },
@@ -93,6 +96,7 @@ const Catalog = () => {
                         onMouseEnter={() => setOpenFilters((prev) => ({ ...prev, [name]: true }))}
                         onMouseLeave={() => setOpenFilters((prev) => ({ ...prev, [name]: false }))}
                     >
+                        
                         <div className={styles.filterTitle}>{label}</div>
                         <ul
                             className={styles.filterOptions}
@@ -111,24 +115,25 @@ const Catalog = () => {
                         </ul>
                     </div>
                 ))}
+                </div>
             </div>
 
             {/* Вывод карточек обуви */}
-            <div>
+            <div className={styles.blockCard}>
                 {shoes.length > 0 ? (
                     shoes.map((shoe) => (
-                        <div key={shoe.id}>
-                            <img src={shoe.image_url} alt={shoe.model} width={150} />
-                            <h3>{shoe.model}</h3>
-                            <p>Бренд: {shoe.brand}</p>
-                            <p>Цвет: {shoe.color}</p>
-                            <p>Материал: {shoe.material}</p>
-                            <p>Цена: {shoe.price} ₸</p>
-                            <a href={`/shoes/${shoe.id}`}>Подробнее</a>
+                        <div className={styles.card} key={shoe.id}>
+                            <img className={styles.cardImg} src={shoe.image_url} alt={shoe.model} width={150} />
+                            <h3 className={styles.cardTitle}>{shoe.model}</h3>
+                            <p className={styles.cardDescription}>Бренд: {shoe.brand}</p>
+                            <p className={styles.cardDescription}>Цвет: {shoe.color}</p>
+                            <p className={styles.cardDescription}>Материал: {shoe.material}</p>
+                            <p className={styles.cardDescription}>Цена: {shoe.price} ₸</p>
+                            <a className={styles.cardMore} href={`/shoes/${shoe.id}`}>Подробнее</a>
                         </div>
                     ))
                 ) : (
-                    <p>Ничего не найдено</p>
+                    <p className={styles.cardMore}>Ничего не найдено</p>
                 )}
             </div>
         </div>

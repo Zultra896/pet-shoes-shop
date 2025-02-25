@@ -1,5 +1,6 @@
 .filters {
     display: flex;
+    justify-content: space-between;
     gap: 15px;
     background: #f8f8f8;
     padding: 10px;
@@ -8,8 +9,13 @@
     position: sticky;
     top: 0;
     z-index: 100;
-    gap: 30px;
 }
+
+.filterBlock {
+    display: flex;
+    gap: 15px;
+}
+
 
 .filterGroup {
     position: relative;
@@ -80,4 +86,42 @@
     cursor: pointer;
     gap: 3px;
     align-items: center;
+}
+
+.blockCard {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(200px, 1fr)); /* Гибкость сетки */
+    gap: 10px;
+    justify-content: center;
+}
+
+.card {
+    width: 100%;
+    max-width: 296px;
+    display: flex;
+    flex-direction: column;
+}
+
+.cardImg {
+    width: 100%;
+    aspect-ratio: 1; /* Поддерживает квадратное изображение */
+}
+
+.cardImg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Гарантирует, что изображение заполняет контейнер без искажений */
+}
+
+
+.cardTitle {
+
+}
+
+.cardDescription {
+
+}
+
+.cardMore {
+
 }
