@@ -9,6 +9,8 @@ const routes = [
   { path: '/shoes/:id', element: <Shoes />}
 ];
 
+import globalStyles from './css/global.module.css'
+
 function App() {
   const elements = useRoutes(routes);
   return (
