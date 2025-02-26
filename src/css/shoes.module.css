@@ -1,0 +1,125 @@
+/* Основной контейнер */
+.shoeContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  /* Изображение товара */
+  .shoeImage {
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    border-radius: 12px;
+    object-fit: cover;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+  
+  .shoeImage:hover {
+    transform: scale(1.02);
+  }
+  
+  /* Название модели */
+  .shoeTitle {
+    font-size: 24px;
+    font-weight: 600;
+    color: #222;
+    margin-top: 12px;
+  }
+  
+  /* Бренд, материал */
+  .shoeInfo {
+    font-size: 16px;
+    color: #555;
+    margin-top: 5px;
+  }
+  
+  /* Цена */
+  .shoePrice {
+    font-size: 22px;
+    font-weight: 600;
+    color: #d32f2f;
+    margin-top: 10px;
+  }
+  
+  /* Блок цветов */
+  .colorsContainer {
+    margin-top: 15px;
+  }
+  
+  .colorsContainer p {
+    font-size: 16px;
+    font-weight: 500;
+    color: #222;
+    margin-bottom: 8px;
+  }
+  
+  /* Цветовые кружки */
+  .colorCircles {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .colorCircle {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    transition: transform 0.2s ease, border 0.2s ease;
+    cursor: pointer;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+  }
+  
+  .colorCircle:hover {
+    transform: scale(1.15);
+    border: 2px solid rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Размеры */
+  .sizes {
+    font-size: 16px;
+    font-weight: 500;
+    color: #444;
+    margin-top: 12px;
+  }
+  
+  /* Состояния загрузки и ошибки */
+  .loading, .error, .notFound {
+    font-size: 18px;
+    font-weight: 500;
+    color: #888;
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  /* Для мобильных устройств */
+  @media (max-width: 480px) {
+    .shoeContainer {
+      padding: 15px;
+    }
+  
+    .shoeImage {
+      max-width: 280px;
+    }
+  
+    .shoeTitle {
+      font-size: 22px;
+    }
+  
+    .shoePrice {
+      font-size: 20px;
+    }
+  
+    .colorCircle {
+      width: 24px;
+      height: 24px;
+    }
+  }
+  

@@ -1,8 +1,20 @@
 import './App.css';
+
+import { useRoutes } from 'react-router';
+
 import Catalog from './pages/Catalog';
+import Shoes from './pages/Shoes';
+const routes = [
+  { path: '/', element: <Catalog /> },
+  { path: '/shoes/:id', element: <Shoes />}
+];
+
 function App() {
+  const elements = useRoutes(routes);
   return (
-    <Catalog />
+    <div>
+      {elements}
+    </div>
   );
 }
 

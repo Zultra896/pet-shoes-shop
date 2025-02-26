@@ -23,18 +23,6 @@ db.connect((err) => {
     }
 });
 
-// Функция для подготовки SQL-запроса с массивами значений
-const addFilter = (query, params, column, values) => {
-    if (values) {
-        const valuesArray = Array.isArray(values) ? values : [values];
-        if (valuesArray.length > 0) {
-            query += ` AND ${column} IN (${valuesArray.map(() => "?").join(", ")})`;
-            params.push(...valuesArray);
-        }
-    }
-    return query;
-};
-
 // Каталог с фильтрацией и поиском
 app.get("/api/shoes", (req, res) => {
     let { brand, color, material, size, search } = req.query;
@@ -98,6 +86,47 @@ app.get("/api/shoes", (req, res) => {
         res.json(results);
     });
 });
+
+
+app.get("/api/shoes/:id", (req, res) => {
+    const { id } = req.params;
+
+    const query = `
+       SELECT 
+            s.id, 
+            s.model, 
+            s.price, 
+            s.image_url, 
+            s.description,
+            b.name AS brand, 
+            CONCAT('[', GROUP_CONCAT(DISTINCT CONCAT('"', c.name, '"') SEPARATOR ','), ']') AS colors,  
+            m.name AS material, 
+            CONCAT('[', GROUP_CONCAT(DISTINCT sz.size SEPARATOR ','), ']') AS sizes   
+        FROM shoes s
+        JOIN brands b ON s.brand_id = b.id
+        JOIN materials m ON s.material_id = m.id
+        LEFT JOIN shoes_colors sc ON s.id = sc.shoe_id
+        LEFT JOIN colors c ON sc.color_id = c.id
+        LEFT JOIN shoes_sizes ss ON s.id = ss.shoe_id
+        LEFT JOIN sizes sz ON ss.size_id = sz.id
+        WHERE s.id = ?
+        GROUP BY s.id, b.name, m.name;
+    `;
+
+    db.execute(query, [id], (err, results) => {
+        if (err) {
+            console.error("Ошибка SQL:", err);
+            return res.status(500).json({ message: "Ошибка сервера", error: err });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ message: "Обувь не найдена" });
+        }
+
+        res.json(results[0]);
+    });
+});
+
 
 
 
