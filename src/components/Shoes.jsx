@@ -21,6 +21,8 @@ function Shoes() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const [selectedSize, setSelectedSize] = useState(null);
+
   useEffect(() => {
     axios
       .get(`http://localhost:5000/api/shoes/${id}`)
@@ -38,40 +40,72 @@ function Shoes() {
       .finally(() => setLoading(false));
   }, [id]);
 
+  useEffect(() => {
+    if (shoe?.sizes?.length) {
+      setSelectedSize(shoe.sizes[0]); // Устанавливаем первый размер после загрузки
+    }
+  }, [shoe]);
+
   if (loading) return <p className={styles.loading}>Загрузка...</p>;
   if (error) return <p className={styles.error}>{error}</p>;
   if (!shoe) return <p className={styles.notFound}>Данные не найдены</p>;
 
   return (
-    <div className={styles.shoeCard}>
-      <img src={shoe.image_url} alt={shoe.model} className={styles.shoeImage} />
-      <h2 className={styles.shoeTitle}>{shoe.model}</h2>
-      <p className={styles.shoeInfo}><strong>Бренд:</strong> {shoe.brand}</p>
-      <p className={styles.shoeInfo}><strong>Материал:</strong> {shoe.material}</p>
-      <p className={styles.shoePrice}><strong>Цена:</strong> {shoe.price}₸</p>
-
-      {/* Отображение цветов */}
-      <div className={styles.colorsContainer}>
-        <p>Доступные цвета:</p>
-        <div className={styles.colorCircles}>
-          {shoe.colors?.length ? shoe.colors.map((color, index) => {
-            const bgColor = colorMap[color] || "#ccc";
-            return (
+    <div className={styles.div}>
+      <div className={styles.container}>
+        <h1 className={styles.title}>{shoe.model}</h1>
+        <div className={styles.block}>
+          <div className={styles.block1}>
+            <div className={styles.poster}>
+              <img className={styles.img} src={shoe.image_url} alt={shoe.model}/>
+            </div>
+            <div className={styles.info}>
+              <div className={styles.itemInfo}>
+                <p className={styles.shoeInfo}>{shoe.material}</p>   
+              </div>
+              <div className={styles.itemInfo}>
+                <p>{shoe.gender}</p>
+              </div>
+              <div className={styles.itemInfo}>
+                <div className={styles.colorsContainer}>
+                    <div className={styles.colorCircles}>
+                      {shoe.colors?.length ? shoe.colors.map((color, index) => {
+                        const bgColor = colorMap[color] || "#ccc";
+                        return (
+                          <div
+                            key={index}
+                            className={styles.colorCircle}
+                            style={{ backgroundColor: bgColor }}
+                            aria-label={color}
+                            title={colorMap[color] ? color : `${color} (неизвестный цвет)`}
+                          />
+                        );
+                      }) : <p>Цвет не указан</p>}
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className={styles.block2}>
+            <p className={styles.shoeInfo}>{shoe.brand}</p>
+            <p>
+              {shoe.description}
+            </p>
+            <p className={styles.shoePrice}>{shoe.price}₸</p>  
+            <div className={styles.sizesContainer}>
+              {shoe.sizes.map((size, index) => (
               <div
                 key={index}
-                className={styles.colorCircle}
-                style={{ backgroundColor: bgColor }}
-                aria-label={color}
-                title={colorMap[color] ? color : `${color} (неизвестный цвет)`}
-              />
-            );
-          }) : <p>Цвет не указан</p>}
+                className={`${styles.sizeBox} ${selectedSize === size ? styles.selectedSize : ""}`}
+                onClick={() => setSelectedSize(size)}
+              >
+                {size}
+              </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
-
-      <p className={styles.sizes}>
-        <strong>Размеры:</strong> {shoe.sizes?.length ? shoe.sizes.join(", ") : "Нет в наличии"}
-      </p>
     </div>
   );
 }

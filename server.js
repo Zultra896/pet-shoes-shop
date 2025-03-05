@@ -98,6 +98,7 @@ app.get("/api/shoes/:id", (req, res) => {
             s.price, 
             s.image_url, 
             s.description,
+            s.gender,
             b.name AS brand, 
             CONCAT('[', GROUP_CONCAT(DISTINCT CONCAT('"', c.name, '"') SEPARATOR ','), ']') AS colors,  
             m.name AS material, 
@@ -110,7 +111,7 @@ app.get("/api/shoes/:id", (req, res) => {
         LEFT JOIN shoes_sizes ss ON s.id = ss.shoe_id
         LEFT JOIN sizes sz ON ss.size_id = sz.id
         WHERE s.id = ?
-        GROUP BY s.id, b.name, m.name;
+        GROUP BY s.id, s.gender, b.name, m.name;
     `;
 
     db.execute(query, [id], (err, results) => {
