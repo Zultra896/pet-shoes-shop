@@ -1,3 +1,67 @@
+CREATE DATABASE base1;
+
+USE base1;
+
+-- Таблица брендов
+CREATE TABLE brands (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50) UNIQUE NOT NULL -- Nike, Adidas и т. д.
+);
+
+-- Таблица цветов
+CREATE TABLE colors (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(30) UNIQUE NOT NULL -- Черный, Белый, Красный и т. д.
+);
+
+-- Таблица материалов
+CREATE TABLE materials (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50) UNIQUE NOT NULL -- Кожа, Текстиль, Синтетика и т. д.
+);
+
+-- Таблица размеров
+CREATE TABLE sizes (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    size DECIMAL(4,1) UNIQUE NOT NULL -- 40.5, 41, 42 и т. д.
+);
+
+-- Таблица обуви (основная)
+CREATE TABLE shoes (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    brand_id INT NOT NULL, -- Связь с таблицей брендов
+    model VARCHAR(100) NOT NULL, -- Название модели (Air Max, Superstar и т. д.)
+    color_id INT NOT NULL, -- Связь с таблицей цветов
+    material_id INT NOT NULL, -- Связь с таблицей материалов
+    gender ENUM('men', 'women', 'unisex') NOT NULL, -- Категория обуви
+    price DECIMAL(10,2) NOT NULL, -- Цена
+    description TEXT, -- Описание обуви
+    image_url VARCHAR(500), -- Ссылка на изображение обуви
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Дата добавления
+    FOREIGN KEY (brand_id) REFERENCES brands(id),
+    FOREIGN KEY (color_id) REFERENCES colors(id),
+    FOREIGN KEY (material_id) REFERENCES materials(id)
+);
+
+-- Таблица связки обуви с размерами и количеством на складе
+CREATE TABLE shoes_sizes (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    shoe_id INT NOT NULL, -- ID обуви
+    size_id INT NOT NULL, -- ID размера
+    stock INT DEFAULT 0, -- Количество на складе
+    FOREIGN KEY (shoe_id) REFERENCES shoes(id) ON DELETE CASCADE,
+    FOREIGN KEY (size_id) REFERENCES sizes(id) ON DELETE CASCADE
+);
+
+CREATE TABLE shoes_colors (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    shoe_id INT NOT NULL, -- ID обуви
+    color_id INT NOT NULL, -- ID цвета
+    FOREIGN KEY (shoe_id) REFERENCES shoes(id) ON DELETE CASCADE,
+    FOREIGN KEY (color_id) REFERENCES colors(id) ON DELETE CASCADE
+);
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
