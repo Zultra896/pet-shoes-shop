@@ -81,7 +81,7 @@ const Catalog = () => {
 
             <div className={styles.filters}>
 
-            <input className={styles.catalog__search} type="text" name="search" placeholder="Поиск по названию" onChange={handleSearchChange} />
+            <input className={styles.catalog__search} type="text" name="search" placeholder="Поиск" onChange={handleSearchChange} />
 
                 <div className={styles.filterBlock}>
                 {[

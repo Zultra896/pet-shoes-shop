@@ -1,12 +1,16 @@
+.catalog {
+    margin: 20px 120px 0 120px;
+}
+
 .filters {
     display: flex;
     justify-content: space-between;
     gap: 15px;
     background: #f8f8f8;
     padding: 10px;
-    border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     position: sticky;
+    margin-top: 20px;
     top: 0;
     z-index: 100;
 }
@@ -15,7 +19,6 @@
     display: flex;
     gap: 15px;
 }
-
 
 .filterGroup {
     position: relative;
@@ -26,7 +29,7 @@
     font-weight: bold;
     cursor: pointer;
     padding: 10px 15px;
-    background: #eaeaea;
+    background: #f0eded;
     border-radius: 5px;
     transition: background 0.3s;
     white-space: nowrap;
@@ -88,23 +91,47 @@
     align-items: center;
 }
 
+.catalog__search {
+    background-color: #f0eded;
+    color: #434343;
+    border: none;
+    padding: 5px 10px;
+    padding: 10px;
+    border: 2px solid transparent; /* Изначально бордер прозрачный */
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease-in-out; /* Плавное появление бордера */
+  }
+  
+  .catalog__search:focus {
+    border-color: #a9a9a9; /* Показываем бордер при фокусе */
+  }
+  
+
 .blockCard {
     display: grid;
     grid-template-columns: repeat(4, minmax(200px, 1fr)); /* Гибкость сетки */
     gap: 10px;
     justify-content: center;
+    margin-top: 20px;
 }
 
 .card {
-    width: 100%;
-    max-width: 296px;
+    max-width: 312px;
+    background-color: #e7e5e5;
+    padding: 15px;
+    border-radius: 5px;
     display: flex;
     flex-direction: column;
+    gap: 8px;
 }
 
 .cardImg {
     width: 100%;
     aspect-ratio: 1; /* Поддерживает квадратное изображение */
+    overflow: hidden;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 
 .cardImg img {
@@ -115,13 +142,21 @@
 
 
 .cardTitle {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
 
 }
 
 .cardDescription {
-
+    font-size: 16px;
+    font-weight: 500;
+    color: #444;
 }
 
 .cardMore {
+    font-size: 14px;
+    color: #005cfb;
+    cursor: pointer;
 
 }
